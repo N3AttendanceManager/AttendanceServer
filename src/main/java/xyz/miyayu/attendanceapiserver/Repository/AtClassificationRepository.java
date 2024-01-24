@@ -1,4 +1,7 @@
 package xyz.miyayu.attendanceapiserver.Repository;
 
-public class AtClassificationRepository {
+import org.springframework.data.repository.CrudRepository;
+import xyz.miyayu.attendanceapiserver.Entity.AtClassificationEntity;
+
+public interface AtClassificationRepository extends CrudRepository<AtClassificationEntity, Integer> {
 }

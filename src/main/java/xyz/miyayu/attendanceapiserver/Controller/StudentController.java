@@ -19,7 +19,7 @@ public class StudentController {
         return studentRepository.findAll();
     }
 
-    @GetMapping("selectId")
+    @GetMapping("/[selectId]")
     public StudentEntity getStudentById(@RequestParam int autoId) {
         return studentRepository.findById(autoId).orElse(null);
     }
