@@ -21,6 +21,11 @@ jobs:
           distribution: 'temurin'
           cache: 'gradle'
 
+      - name: Out Secret
+        run: |
+          echo "${{ secrets.APPLICATION_PROPERTIES }}" > ./src/main/resources/application.properties
+
+
       - name: Build with Gradle
         run: ./gradlew buildDeployWar
 
