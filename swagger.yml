@@ -1,0 +1,451 @@
+openapi: 3.0.3
+info:
+  title: 出席管理アプリケーション
+  description: |-
+    みやは変態です。
+  version: 1.0.0
+servers:
+  - url: https://n3a.miyayu.xyz/api/
+tags:
+  - name: 出席管理系
+    description:  生徒の出席情報を管理します
+paths:
+  /student:
+    post:
+      tags:
+        - Student
+      summary: 生徒を登録します
+      description: 生徒を新しく登録します
+      operationId: addStudent
+      parameters:
+        - name: studentId
+          in: query
+          description: 学籍番号
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: query
+          description: 生徒名
+          required: true
+          schema:
+            type: string
+        - name: departmentId
+          description: 科目ID
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 生徒の登録に成功したとき
+        '400':
+          description: 入力値が不正な時
+
+  /student/:
+    get:
+      tags:
+        - Student
+      summary: 生徒の一覧を取得します
+      description: 登録されているすべての生徒を取得します
+      operationId: getAllStunet
+      responses:
+        '200':
+          description: 生徒一覧が出力されます
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentsArray'
+
+  /stundent/{studentId}:
+    get:
+      tags:
+        - Student
+      summary: 生徒をIDから取得します
+      description: 一致する生徒を1名のみ返します。
+      operationId: getStudentById
+      parameters:
+        - name: studentId
+          in: path
+          description: 学籍番号
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 生徒が見つかったとき
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Student'
+        '400':
+          description: 不正な学籍番号のとき
+        '404':
+          description: 生徒が見つからなかったとき
+
+  /teacher:
+    get:
+      tags:
+        - Teacher
+      summary: 教師の一覧を取得します
+      description: 登録されているすべての教師を取得します
+      operationId: getAllTeacher
+      responses:
+        '200' :
+          description: 教師一覧が出力されます
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  teachers:
+                    items:
+                      $ref: '#/components/schemas/Teacher'
+
+  /ic:
+    post:
+      tags:
+        - IC
+      summary: ICカードの登録をします
+      description: ICカードを新しく登録します
+      operationId: addIC
+      parameters:
+        - name: studentId
+          in: query
+          description: 学生の番号（自動生成）
+          required: true
+          schema:
+            type: string
+        - name: IcId
+          in: query
+          description: ICカード番号
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ICカードの登録に成功したとき
+        '400':
+          description: 入力値が不正な時
+
+  /subject:
+    post:
+      tags:
+        - Subject
+      summary: 科目の登録をします
+      description: 科目を新しく登録します
+      operationId: addSubject
+      parameters:
+        - name: name
+          in: query
+          description: 科目名
+          required: true
+          schema:
+            type: string
+        - name: departmentId
+          in: query
+          description: 学科ID
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: 科目の登録に成功したとき
+        '400':
+          description: 入力値が不正な時
+
+  /subject/:
+    get:
+      tags:
+        - Subject
+      summary: 科目の一覧を取得します
+      description: 登録されているすべての科目を取得します
+      operationId: getAllSubject
+      responses:
+        '200' :
+          description: 科目一覧が出力されます
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  teachers:
+                    items:
+                      $ref: '#/components/schemas/Subject'
+
+  /class:
+    post:
+      tags:
+        - Class
+      summary: 授業の登録をします
+      description: 授業を新しく登録します
+      operationId: addClass
+      parameters:
+        - name: subjectId
+          in: query
+          description: 科目ID
+          required: true
+          schema:
+            type: number
+        - name: Start
+          in: query
+          description: 授業開始日時
+          required: true
+          schema:
+            type: string
+        - name: End
+          in: query
+          description: 授業終了日時
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 授業登録に成功したとき
+        '400':
+          description: 入力値が不正な時
+
+  /class/:
+    get:
+      tags:
+        - Class
+      summary: 授業の一覧を取得します
+      description: 登録されているすべての授業を取得します
+      operationId: getAllClass
+      responses:
+        '200' :
+          description: 授業一覧が出力されます
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  teachers:
+                    items:
+                      $ref: '#/components/schemas/Class'
+
+  /attendanceClass:
+    get:
+      tags:
+        - AttendanceClass
+      summary: 出席分類の一覧を取得します
+      description: 登録されているすべての出席分類を取得します
+      operationId: getAllAttendanceClass
+      responses:
+        '200' :
+          description: 出席分類一覧が出力されます
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  teachers:
+                    items:
+                      $ref: '#/components/schemas/AttendanceClass'
+
+  /attendancePos:
+    post:
+      tags:
+        - AttendancePos
+      summary: 出席情報(生徒ID)の登録をします
+      description: 出席情報(生徒ID)を新しく登録します
+      operationId: addAttendancePos
+      parameters:
+        - name: studentId
+          in: query
+          description: 生徒ID
+          required: true
+          schema:
+            type: number
+        - name: classId
+          in: query
+          description: 授業ID
+          required: true
+          schema:
+            type: number
+        - name: atClassificationId
+          in: query
+          description: 出席分類ID
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: 出席情報(生徒ID)登録に成功したとき
+        '400':
+          description: 入力値が不正な時
+
+  /attendancePosIc:
+    post:
+      tags:
+        - AttendancePos
+      summary: 出席情報(IC)の登録をします
+      description: 出席情報(IC)を新しく登録します
+      operationId: addAttendancePosIc
+      parameters:
+        - name: IcId
+          in: query
+          description: ICID
+          required: true
+          schema:
+            type: number
+        - name: classId
+          in: query
+          description: 授業ID
+          required: true
+          schema:
+            type: number
+        - name: atClassificationId
+          in: query
+          description: 出席分類ID
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: 出席情報(IC)登録に成功したとき
+        '400':
+          description: 入力値が不正な時
+
+  /attendance:
+    get:
+      tags:
+        - Attendance
+      summary: 出席情報の一覧を取得します
+      description: 登録されているすべての出席情報を取得します
+      operationId: getAllAttendance
+      responses:
+        '200' :
+          description: 出席情報一覧が出力されます
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  teachers:
+                    items:
+                      $ref: '#/components/schemas/Attendance'
+
+  /attendance/update:
+    post:
+      tags:
+        - AttendancePos
+      summary: 出席情報の更新をします
+      operationId: updateAttendance
+      parameters:
+        - name: studentId
+          in: query
+          description: 生徒ID
+          required: true
+          schema:
+            type: number
+        - name: classId
+          in: query
+          description: 授業ID
+          required: true
+          schema:
+            type: number
+        - name: atClassificationId
+          in: query
+          description: 出席分類ID
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: 出席情報の更新に成功したとき
+        '400':
+          description: 入力値が不正な時
+
+components:
+  schemas:
+    StudentsArray:
+      type: object
+      properties:
+        students:
+          type: array
+          items:
+            $ref: '#/components/schemas/Student'
+
+
+    Student:
+      type: object
+      required:
+        - id
+        - studentId
+        - name
+        - departmentId
+        - icId
+      properties:
+        id:
+          type: integer
+          description: システム上で管理されているID
+          example: 3
+        studentId:
+          type: string
+          description: 学生ID
+          example: G021C1000
+        name:
+          type: string
+          description: 氏名
+          example: 鈴木 大志
+        departmentId:
+          type: number
+          description: 学科ID
+          example: 1
+        icId:
+          type: string
+          description: ICID
+          example: 0xabcdef
+          nullable: true
+
+
+
+
+    Teacher:
+      type: object
+      properties:
+        teacherId:
+          type: string
+          description: 教師ID
+          example: G000C000
+
+        schoolId:
+          type: number
+          description: 学校ID
+          example: 1
+
+        accountId:
+          type: string
+          description: 教師アカウントID
+          example: AA20
+
+        name:
+          type: string
+          description: 氏名
+          example: 田嶋 大志
+
+    Subject:
+      type: object
+      properties:
+        name:
+          type: string
+          description: 科目名
+          example: 人体実験
+
+        departmentId:
+          type: number
+          description: 学科ID
+          example: 1
+
+    Class:
+      type: object
+      properties:
+        subjectId:
+          type: number
+          description: 授業ID
+          example: 1
+    AttendanceClass:
+      type: object
+    Attendance:
+      type: object
