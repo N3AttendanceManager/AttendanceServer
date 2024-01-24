@@ -41,8 +41,6 @@ paths:
           description: 生徒の登録に成功したとき
         '400':
           description: 入力値が不正な時
-
-  /student/:
     get:
       tags:
         - Student
@@ -55,7 +53,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/StudentsArray'
+                type: object
+                properties:
+                  students:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Student'
 
   /stundent/{studentId}:
     get:
@@ -69,19 +72,25 @@ paths:
           in: path
           description: 学籍番号
           required: true
+          example: 10
           schema:
             type: string
       responses:
         '200':
-          description: 生徒が見つかったとき
+          description: 生徒を返す
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Student'
+                type: object
+                required:
+                  - student
+                properties:
+                  student:
+                    nullable: true
+                    $ref: '#/components/schemas/Student'
+
         '400':
           description: 不正な学籍番号のとき
-        '404':
-          description: 生徒が見つからなかったとき
 
   /teacher:
     get:
@@ -153,8 +162,6 @@ paths:
           description: 科目の登録に成功したとき
         '400':
           description: 入力値が不正な時
-
-  /subject/:
     get:
       tags:
         - Subject
@@ -169,7 +176,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  teachers:
+                  subjects:
                     items:
                       $ref: '#/components/schemas/Subject'
 
@@ -204,8 +211,6 @@ paths:
           description: 授業登録に成功したとき
         '400':
           description: 入力値が不正な時
-
-  /class/:
     get:
       tags:
         - Class
@@ -220,7 +225,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  teachers:
+                  classes:
                     items:
                       $ref: '#/components/schemas/Class'
 
@@ -239,14 +244,14 @@ paths:
               schema:
                 type: object
                 properties:
-                  teachers:
+                  classifications:
                     items:
-                      $ref: '#/components/schemas/AttendanceClass'
+                      $ref: '#/components/schemas/Classification'
 
-  /attendancePos:
+  /attendance/manual:
     post:
       tags:
-        - AttendancePos
+        - Attendance
       summary: 出席情報(生徒ID)の登録をします
       description: 出席情報(生徒ID)を新しく登録します
       operationId: addAttendancePos
@@ -275,10 +280,10 @@ paths:
         '400':
           description: 入力値が不正な時
 
-  /attendancePosIc:
+  /attendance/ic:
     post:
       tags:
-        - AttendancePos
+        - Attendance
       summary: 出席情報(IC)の登録をします
       description: 出席情報(IC)を新しく登録します
       operationId: addAttendancePosIc
@@ -322,50 +327,60 @@ paths:
               schema:
                 type: object
                 properties:
-                  teachers:
+                  attendances:
                     items:
                       $ref: '#/components/schemas/Attendance'
 
-  /attendance/update:
-    post:
-      tags:
-        - AttendancePos
-      summary: 出席情報の更新をします
-      operationId: updateAttendance
-      parameters:
-        - name: studentId
-          in: query
-          description: 生徒ID
-          required: true
-          schema:
-            type: number
-        - name: classId
-          in: query
-          description: 授業ID
-          required: true
-          schema:
-            type: number
-        - name: atClassificationId
-          in: query
-          description: 出席分類ID
-          required: true
-          schema:
-            type: number
-      responses:
-        '200':
-          description: 出席情報の更新に成功したとき
-        '400':
-          description: 入力値が不正な時
-
 components:
   schemas:
-    StudentsArray:
+    School:
+      description: 学校
       type: object
       properties:
-        students:
-          type: array
-          items:
-            $ref: '#/components/schemas/Student'
+        id:
+          type: integer
+          description: 学校ID(自動生成)
+          example: 1
+        name:
+          type: string
+          description: 学校名
+          example: 東京大学
+
+    Department:
+      description: 学科(生徒が所属するもの)
+      type: object
+      properties:
+        id:
+          type: integer
+          description: 学科ID(自動生成)
+          example: 1
+        name:
+          type: string
+          description: 学科名
+          example: 情報処理科
+        schoolId:
+          type: integer
+          description: 学校ID
+          example: 1
+
+    Subject:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: 科目ID(自動生成)
+          example: 1
+        name:
+          type: string
+          description: 科目名
+          example: 人体実験
+        departmentId:
+          type: number
+          description: 学科ID
+          example: 1
+
+
+
 
 
     Student:
@@ -395,57 +410,103 @@ components:
           example: 1
         icId:
           type: string
-          description: ICID
+          description: ICカードのIDm（固有識別子）
           example: 0xabcdef
           nullable: true
 
-
-
+    Unit:
+      description: 生徒が履修している授業情報
+      type: object
+      properties:
+        studentId:
+          type: integer
+          description: 学生ID
+          example: 1
+        subjectId:
+          type: integer
+          description: 科目ID
+          example: 1
 
     Teacher:
       type: object
       properties:
+        id:
+          type: integer
+          description: 教師ID(自動生成)
+          example: 1
         teacherId:
           type: string
           description: 教師ID
           example: G000C000
-
+        name:
+          type: string
+          description: 氏名
+          example: 田嶋 大志
         schoolId:
           type: number
           description: 学校ID
           example: 1
-
         accountId:
           type: string
           description: 教師アカウントID
           example: AA20
 
-        name:
-          type: string
-          description: 氏名
-          example: 田嶋 大志
 
-    Subject:
-      type: object
-      properties:
-        name:
-          type: string
-          description: 科目名
-          example: 人体実験
 
-        departmentId:
-          type: number
-          description: 学科ID
-          example: 1
+
 
     Class:
       type: object
       properties:
-        subjectId:
-          type: number
+        id:
+          type: integer
           description: 授業ID
           example: 1
-    AttendanceClass:
-      type: object
+        subjectId:
+          type: integer
+          description: 科目
+          example: 1
+        startOn:
+          type: string
+          description: 授業の開始日時
+          example: 2020-10-11 12:20
+        endOn:
+          type: string
+          description: 授業の終了日時
+          example: 2020-10-11 13:50
+
     Attendance:
       type: object
+      properties:
+        studentId:
+          type: integer
+          description: 生徒ID
+        schoolId:
+          type: integer
+          description: 学校ID
+        teacherId:
+          type: integer
+          description: 授業ID
+        classificationId:
+          type: integer
+          description: 出席区分ID
+    Classification:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: 出席分類ID(自動生成)
+        schoolId:
+          type: integer
+          description: 学校ID
+        name:
+          type: string
+          description: 出席分類名
+        isDecision:
+          type: boolean
+          description: 出席にするかどうか
+        isClassExclusionDecision:
+          type: boolean
+          description: 授業日数から除外するかどうか
+
+
