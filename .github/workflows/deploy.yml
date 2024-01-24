@@ -23,6 +23,7 @@ jobs:
 
       - name: Out Secret
         run: |
+          mkdir -p ./src/main/resources
           echo "${{ secrets.APPLICATION_PROPERTIES }}" > ./src/main/resources/application.properties
 
 
