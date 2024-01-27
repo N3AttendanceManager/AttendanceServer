@@ -388,7 +388,7 @@ components:
         name:
           type: string
           description: 氏名
-          example: 鈴木 大志
+          example: 鈴木 鈴木
         departmentId:
           type: number
           description: 学科ID
@@ -398,9 +398,6 @@ components:
           description: ICID
           example: 0xabcdef
           nullable: true
-
-
-
 
     Teacher:
       type: object
@@ -445,7 +442,44 @@ components:
           type: number
           description: 授業ID
           example: 1
+
     AttendanceClass:
       type: object
+      properties:
+        schoolId:
+          type: number
+          description: 学校ID
+          example: 1
+        name:
+          type: string
+          description: 出席分類名
+          example: 出席
+        atDecision:
+          type: boolean
+          description: 出席判定
+          example: true
+        classExclusionDecision:
+          type: boolean
+          description: 授業除外判定
+          example: false
+
     Attendance:
       type: object
+      properties:
+        studentId:
+          type: number
+          description: 生徒ID
+          example: 2
+        classId:
+          type: number
+          description: 授業ID
+          example: 1
+        teacherId:
+          type: number
+          description: 教員ID
+          example: 1
+        atClassificationId:
+          type: number
+          description: 出席分類
+          example: 1
+
