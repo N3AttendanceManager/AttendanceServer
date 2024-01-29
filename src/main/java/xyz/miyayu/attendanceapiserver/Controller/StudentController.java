@@ -36,12 +36,17 @@ public class StudentController {
     @PostMapping("")
     public @ResponseBody
     String addNewStudent(@RequestParam String studentId, String name, int departmentId, String icId) {
-        StudentEntity n = new StudentEntity();
-        n.setStudentId(studentId);
-        n.setName(name);
-        n.setDepartmentId(departmentId);
-        //n.setIcId(icId);
-        studentRepository.save(n);
-        return "DataSaved";
+        try {
+            StudentEntity n = new StudentEntity();
+            n.setStudentId(studentId);
+            n.setName(name);
+            n.setDepartmentId(departmentId);
+            //n.setIcId(icId);
+            studentRepository.save(n);
+            return "DataSaved";
+        } catch (RuntimeException e) {
+            //400エラーのスロー
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid request data");
+        }
     }
 }
