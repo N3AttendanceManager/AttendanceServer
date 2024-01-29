@@ -1,20 +1,17 @@
 package xyz.miyayu.attendanceapiserver.Controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import xyz.miyayu.attendanceapiserver.Controller.Request.StudentRequest;
-import xyz.miyayu.attendanceapiserver.Entity.StudentEntity;
-import xyz.miyayu.attendanceapiserver.Repository.StudentRepository;
-import xyz.miyayu.attendanceapiserver.Service.StudentService;
+import xyz.miyayu.attendanceapiserver.Service.IcCardService;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/ic")
 public class IcCardController {
-    private  final StudentService studentService;
+    private  final IcCardService icCardService;
     @PostMapping("")
-    public void update(@RequestBody StudentRequest request,@RequestParam("studentId") Integer studentId,@RequestParam("icId") String icId) {
-        studentService.updateStudent(studentId, request);
+    public void update(@RequestBody StudentRequest request) {
+        icCardService.updateStudent(request);
     }
 }
