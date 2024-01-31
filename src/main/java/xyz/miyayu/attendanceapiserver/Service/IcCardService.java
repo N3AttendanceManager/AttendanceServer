@@ -10,6 +10,8 @@ import xyz.miyayu.attendanceapiserver.Controller.Request.StudentRequest;
 import xyz.miyayu.attendanceapiserver.Entity.StudentEntity;
 import xyz.miyayu.attendanceapiserver.Repository.StudentRepository;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class IcCardService {
@@ -24,7 +26,6 @@ public class IcCardService {
             StudentEntity studentEntity = studentRepository.findById(request.getStudentAutoId())
                     .orElseThrow(() -> new RuntimeException("NOT FOUND STUDENT"));
             studentEntity.setIcId((request.getIcId()));
-            modelMapper.map(request, studentEntity);
         } catch (RuntimeException e) {
             //400エラーのスロー
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid request data");

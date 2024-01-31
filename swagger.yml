@@ -118,19 +118,20 @@ paths:
       summary: ICカードの登録をします
       description: ICカードを新しく登録します
       operationId: addIC
-      parameters:
-        - name: studentAutoId
-          in: query
-          description: 学生の番号（自動生成）
-          required: true
-          schema:
-            type: string
-        - name: IcId
-          in: query
-          description: ICカード番号
-          required: true
-          schema:
-            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                studentAutoId:
+                  description: 学生の番号（自動生成）
+                  type: integer
+                  example: 1
+                icId:
+                  description: ICカード番号
+                  type: string
+                  example: icid
       responses:
         '200':
           description: ICカードの登録に成功したとき
