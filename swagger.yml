@@ -60,7 +60,7 @@ paths:
                     items:
                       $ref: '#/components/schemas/Student'
 
-  /stundent/{studentId}:
+  /stundent/{studentAutoId}:
     get:
       tags:
         - Student
@@ -68,7 +68,7 @@ paths:
       description: 一致する生徒を1名のみ返します。
       operationId: getStudentById
       parameters:
-        - name: studentId
+        - name: studentAutoId
           in: path
           description: 学籍番号
           required: true
@@ -119,7 +119,7 @@ paths:
       description: ICカードを新しく登録します
       operationId: addIC
       parameters:
-        - name: studentId
+        - name: studentAutoId
           in: query
           description: 学生の番号（自動生成）
           required: true
@@ -256,7 +256,7 @@ paths:
       description: 出席情報(生徒ID)を新しく登録します
       operationId: addAttendancePos
       parameters:
-        - name: studentId
+        - name: studentAutoId
           in: query
           description: 生徒ID
           required: true
@@ -403,7 +403,7 @@ components:
         name:
           type: string
           description: 氏名
-          example: 鈴木 大志
+          example: 鈴木 鈴木
         departmentId:
           type: number
           description: 学科ID

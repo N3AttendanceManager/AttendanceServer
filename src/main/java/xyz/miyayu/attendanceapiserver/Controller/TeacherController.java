@@ -2,8 +2,7 @@ package xyz.miyayu.attendanceapiserver.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import xyz.miyayu.attendanceapiserver.Entity.StudentEntity;
-import xyz.miyayu.attendanceapiserver.Entity.TeacherEntity;
+import xyz.miyayu.attendanceapiserver.Controller.Response.TeacherResponse;
 import xyz.miyayu.attendanceapiserver.Repository.TeacherRepository;
 
 @RestController
@@ -15,7 +14,10 @@ public class TeacherController {
         this.teacherRepository = teacherRepository;
     }
     @GetMapping("")
-    public Iterable<TeacherEntity> getAllTeacher() {
-        return teacherRepository.findAll();
+    public TeacherResponse getAllTeacher() {
+        final  var teachers = teacherRepository.findAll();
+        final  var response = new TeacherResponse();
+        response.setTeachers(teachers);
+        return response;
     }
 }

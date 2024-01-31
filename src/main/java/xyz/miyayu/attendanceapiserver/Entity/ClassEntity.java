@@ -3,7 +3,8 @@ package xyz.miyayu.attendanceapiserver.Entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import java.sql.Date;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "classes")
@@ -20,8 +21,8 @@ public class ClassEntity {
     private int subjectId;
 
     @Column(name = "start_on")
-    private Date startOn;
+    private LocalDateTime startOn;
 
     @Column(name = "end_on")
-    private Date endOn;
+    private LocalDateTime endOn;
 }
