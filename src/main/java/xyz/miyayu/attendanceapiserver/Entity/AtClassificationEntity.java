@@ -22,7 +22,7 @@ public class AtClassificationEntity {
     public String name;
 
     @Column(name = "at_decision")
-    public  boolean atDecision = true;
+    public  boolean isDecision = true;
 
     @Column(name = "class_exclusion_decision")
     public boolean isClassExclusionDecision = false;
