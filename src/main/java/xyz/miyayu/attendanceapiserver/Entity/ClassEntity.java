@@ -15,7 +15,7 @@ public class ClassEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "auto_Id")
-    private int autoId;
+    private int id;
 
     @Column(name = "subject_id")
     private int subjectId;

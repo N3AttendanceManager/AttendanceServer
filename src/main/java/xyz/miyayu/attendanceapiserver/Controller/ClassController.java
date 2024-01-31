@@ -5,12 +5,14 @@ import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import xyz.miyayu.attendanceapiserver.Controller.Request.ClassRequest;
 import xyz.miyayu.attendanceapiserver.Controller.Response.ClassResponse;
 import xyz.miyayu.attendanceapiserver.Entity.ClassEntity;
 import xyz.miyayu.attendanceapiserver.Repository.ClassRepository;
 
 import java.sql.Date;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @RestController
 @RequestMapping("class")
@@ -29,12 +31,13 @@ public class ClassController {
     }
     @PostMapping("")
     public @ResponseBody
-    String addNewClass(@RequestParam int subjectId, LocalDateTime startOn, LocalDateTime endOn) {
+    String addNewClass(@RequestBody ClassRequest classRequest) {
+        final var formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
         try {
             ClassEntity n = new ClassEntity();
-            n.setSubjectId(subjectId);
-            n.setStartOn(startOn);
-            n.setEndOn(endOn);
+            n.setSubjectId(classRequest.getSubjectId());
+            n.setStartOn(LocalDateTime.parse(classRequest.getStartOn(),formatter));
+            n.setEndOn(LocalDateTime.parse(classRequest.getEndOn(),formatter));
             classRepository.save(n);
             return "DataSaved";
         } catch (RuntimeException e) {

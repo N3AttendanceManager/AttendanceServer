@@ -8,7 +8,7 @@ servers:
   - url: https://n3a.miyayu.xyz/api/
 tags:
   - name: 出席管理系
-    description:  生徒の出席情報を管理します
+    description: 生徒の出席情報を管理します
 paths:
   /student:
     post:
@@ -100,7 +100,7 @@ paths:
       description: 登録されているすべての教師を取得します
       operationId: getAllTeacher
       responses:
-        '200' :
+        '200':
           description: 教師一覧が出力されます
           content:
             application/json:
@@ -189,7 +189,7 @@ paths:
       description: 登録されているすべての科目を取得します
       operationId: getAllSubject
       responses:
-        '200' :
+        '200':
           description: 科目一覧が出力されます
           content:
             application/json:
@@ -207,25 +207,24 @@ paths:
       summary: 授業の登録をします
       description: 授業を新しく登録します
       operationId: addClass
-      parameters:
-        - name: subjectId
-          in: query
-          description: 科目ID
-          required: true
-          schema:
-            type: number
-        - name: Start
-          in: query
-          description: 授業開始日時
-          required: true
-          schema:
-            type: string
-        - name: End
-          in: query
-          description: 授業終了日時
-          required: true
-          schema:
-            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                subjectId:
+                  description: 科目ID
+                  type: number
+                startOn:
+                  description: 授業開始日時
+                  type: string
+                  example: "2024-01-22T11:00:00"
+                endOn:
+                  description: 授業終了日
+                  type: string
+                  example: "2024-01-22T11:00:00"
+
       responses:
         '200':
           description: 授業登録に成功したとき
@@ -238,7 +237,7 @@ paths:
       description: 登録されているすべての授業を取得します
       operationId: getAllClass
       responses:
-        '200' :
+        '200':
           description: 授業一覧が出力されます
           content:
             application/json:
@@ -257,7 +256,7 @@ paths:
       description: 登録されているすべての出席分類を取得します
       operationId: getAllAttendanceClass
       responses:
-        '200' :
+        '200':
           description: 出席分類一覧が出力されます
           content:
             application/json:
@@ -340,7 +339,7 @@ paths:
       description: 登録されているすべての出席情報を取得します
       operationId: getAllAttendance
       responses:
-        '200' :
+        '200':
           description: 出席情報一覧が出力されます
           content:
             application/json:
