@@ -49,7 +49,7 @@ public class AttendanceService {
                     System.out.print("Not Found");
 
                 } else {
-                    attendanceEntity = attendanceEntities.getFirst();
+                    attendanceEntity = attendanceEntities.get(0);
                     System.out.print("Found");
                 }
                 System.out.println(attendanceEntity.getStudentId() + ":" + attendanceEntity.getClassId());
