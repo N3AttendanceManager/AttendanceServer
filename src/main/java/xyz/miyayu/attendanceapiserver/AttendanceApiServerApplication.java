@@ -8,6 +8,7 @@ public class AttendanceApiServerApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(AttendanceApiServerApplication.class, args);
+
     }
 
 }

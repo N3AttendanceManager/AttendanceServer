@@ -4,7 +4,7 @@
     <data-source source="LOCAL" name="AttendanceServer" uuid="efdf236e-b4c5-4391-8c9a-11c7875ef96e">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
-      <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://64.44.61.114:3306/n3_attendance</jdbc-url>
       <jdbc-additional-properties>
         <property name="com.intellij.clouds.kubernetes.db.host.port" />
