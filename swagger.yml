@@ -256,7 +256,7 @@ paths:
       description: 出席情報(生徒ID)を新しく登録します
       operationId: addAttendancePos
       parameters:
-        - name: studentId
+        - name: studentAutoId
           in: query
           description: 生徒ID
           required: true

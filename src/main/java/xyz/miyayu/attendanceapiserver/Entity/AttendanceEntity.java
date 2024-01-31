@@ -1,23 +1,25 @@
 package xyz.miyayu.attendanceapiserver.Entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.io.Serializable;
 
 @Entity
 @Table(name = "attendances")
 @Getter
 @Setter
+@IdClass(value = AttendanceEntity.AttendanceKey.class)
 public class AttendanceEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "auto_id")
-    private int autoId;
 
     @Column(name = "student_id")
     private int studentId;
 
+    @Id
     @Column(name = "class_id")
     private int classId;
 
@@ -27,4 +29,10 @@ public class AttendanceEntity {
     @Column(name = "at_classification_id")
     private int atClassificationId;
 
+
+    @Data
+    public static class AttendanceKey implements Serializable {
+         private int studentId;
+         private int classId;
+    }
 }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import xyz.miyayu.attendanceapiserver.Controller.Response.AtClassificationResponse;
 import xyz.miyayu.attendanceapiserver.Entity.AtClassificationEntity;
 import xyz.miyayu.attendanceapiserver.Entity.AttendanceEntity;
 import xyz.miyayu.attendanceapiserver.Repository.AtClassificationRepository;
@@ -20,7 +21,10 @@ public class AtClassificationController {
     }
 
     @GetMapping("")
-    public Iterable<AtClassificationEntity> getAllAttendances() {
-        return atClassificationRepository.findAll();
+    public AtClassificationResponse getAllAttendances() {
+        final var atClassifications = atClassificationRepository.findAll();
+        final var response = new AtClassificationResponse();
+        response.setAtClassifications(atClassifications);
+        return response;
     }
 }
