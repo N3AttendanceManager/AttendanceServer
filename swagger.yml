@@ -137,6 +137,25 @@ paths:
           description: ICカードの登録に成功したとき
         '400':
           description: 入力値が不正な時
+  /department:
+    get:
+      tags:
+        - Department
+      summary: 学科一覧を取得します
+      operationId: getDepartments
+      responses:
+        '200':
+          description: 科目一覧が出力されます
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  subjects:
+                    items:
+                      $ref: '#/components/schemas/Department'
+        '400':
+          description: エラーが発生した時
 
   /subject:
     post:
