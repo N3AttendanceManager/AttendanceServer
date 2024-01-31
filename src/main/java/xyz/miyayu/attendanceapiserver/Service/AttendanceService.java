@@ -35,6 +35,7 @@ public class AttendanceService {
                 attendanceEntity.setClassId(request.getClassId());
             }
             attendanceEntity.setAtClassificationId((request.getAtClassificationId()));
+            attendanceEntity.setTeacherId(1);
             attendanceRepository.save(attendanceEntity);
         } catch (RuntimeException e) {
             e.printStackTrace();
