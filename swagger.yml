@@ -248,7 +248,7 @@ paths:
                     items:
                       $ref: '#/components/schemas/Class'
 
-  /attendanceClass:
+  /AttendanceClass:
     get:
       tags:
         - AttendanceClass
