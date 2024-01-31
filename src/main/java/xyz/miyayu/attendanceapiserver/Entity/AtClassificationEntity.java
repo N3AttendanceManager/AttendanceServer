@@ -3,7 +3,6 @@ package xyz.miyayu.attendanceapiserver.Entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.web.bind.annotation.GetMapping;
 
 @Entity
 @Table(name = "at_classifications")
@@ -14,7 +13,7 @@ public class AtClassificationEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "auto_id")
-    public int autoId;
+    public int id;
 
     @Column(name = "school_id")
     public int schoolId;
@@ -26,5 +25,5 @@ public class AtClassificationEntity {
     public  boolean atDecision = true;
 
     @Column(name = "class_exclusion_decision")
-    public boolean classExclusionDecision = false;
+    public boolean isClassExclusionDecision = false;
 }

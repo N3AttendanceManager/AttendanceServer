@@ -5,5 +5,5 @@ import xyz.miyayu.attendanceapiserver.Entity.AtClassificationEntity;
 
 @Data
 public class AtClassificationResponse {
-    public Iterable<AtClassificationEntity> atClassifications;
+    public Iterable<AtClassificationEntity> classifications;
 }
