@@ -35,6 +35,7 @@ public class AttendanceService {
                 attendanceEntity.setClassId(request.getClassId());
             }
             attendanceEntity.setAtClassificationId((request.getAtClassificationId()));
+            attendanceRepository.save(attendanceEntity);
         } catch (RuntimeException e) {
             e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid request data");
