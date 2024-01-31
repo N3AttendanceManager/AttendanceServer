@@ -306,28 +306,28 @@ paths:
       summary: 出席情報(IC)の登録をします
       description: 出席情報(IC)を新しく登録します
       operationId: addAttendancePosIc
-      parameters:
-        - name: IcId
-          in: query
-          description: ICID
-          required: true
-          schema:
-            type: number
-        - name: classId
-          in: query
-          description: 授業ID
-          required: true
-          schema:
-            type: number
-        - name: atClassificationId
-          in: query
-          description: 出席分類ID
-          required: true
-          schema:
-            type: number
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                icId:
+                  description: ICID
+                  type: number
+                classId:
+                  description: 授業ID
+                  type: number
+                atClassificationId:
+                  description: 出席分類ID
+                  type: number
       responses:
         '200':
           description: 出席情報(IC)登録に成功したとき
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Student'
         '400':
           description: 入力値が不正な時
 
@@ -500,13 +500,13 @@ components:
         studentId:
           type: integer
           description: 生徒ID
-        schoolId:
+        classId:
           type: integer
           description: 学校ID
         teacherId:
           type: integer
           description: 授業ID
-        classificationId:
+        atClassificationId:
           type: integer
           description: 出席区分ID
     Classification:

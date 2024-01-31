@@ -4,8 +4,9 @@ import org.springframework.data.repository.CrudRepository;
 import xyz.miyayu.attendanceapiserver.Entity.AttendanceEntity;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface AttendanceRepository extends CrudRepository<AttendanceEntity, Integer> {
 
-    List<AttendanceEntity> findByStudentIdAndClassId(int studentId,int classId);
+    Optional<AttendanceEntity> findByStudentIdAndClassId(int studentId, int classId);
 }
