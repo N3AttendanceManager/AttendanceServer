@@ -36,28 +36,32 @@ public class AttendanceService {
     }
 
     @Transactional
-    public void updateAttendanceByIcId(String icId, AttendanceRequest request) {
+    public StudentEntity updateAttendanceByIcId(String icId, AttendanceRequest request) {
         try {
             List<StudentEntity> studentEntities = studentRepository.findAllByIcId(icId);
-            studentEntities.forEach((studentEntity -> {
-                List<AttendanceEntity> attendanceEntities = attendanceRepository.findByStudentIdAndClassId(studentEntity.getAutoId(), request.getClassId());
-                AttendanceEntity attendanceEntity;
-                if (attendanceEntities.isEmpty()) {
-                    attendanceEntity = new AttendanceEntity();
-                    attendanceEntity.setStudentId(studentEntity.getAutoId());
-                    attendanceEntity.setClassId(request.getClassId());
-                    System.out.print("Not Found");
+            if (studentEntities.isEmpty()) {
+                return null;
+            }
+            var studentEntity = studentEntities.get(0);
+            List<AttendanceEntity> attendanceEntities = attendanceRepository.findByStudentIdAndClassId(studentEntity.getAutoId(), request.getClassId());
+            AttendanceEntity attendanceEntity;
+            if (attendanceEntities.isEmpty()) {
+                attendanceEntity = new AttendanceEntity();
+                attendanceEntity.setStudentId(studentEntity.getAutoId());
+                attendanceEntity.setClassId(request.getClassId());
+                System.out.print("Not Found");
 
-                } else {
-                    attendanceEntity = attendanceEntities.get(0);
-                    System.out.print("Found");
-                }
-                System.out.println(attendanceEntity.getStudentId() + ":" + attendanceEntity.getClassId());
+            } else {
+                attendanceEntity = attendanceEntities.get(0);
+                System.out.print("Found");
+            }
+            System.out.println(attendanceEntity.getStudentId() + ":" + attendanceEntity.getClassId());
 
-                attendanceEntity.setAtClassificationId((request.getAtClassificationId()));
-                attendanceEntity.setTeacherId(1);
-                attendanceRepository.save(attendanceEntity);
-            }));
+            attendanceEntity.setAtClassificationId((request.getAtClassificationId()));
+            attendanceEntity.setTeacherId(1);
+            attendanceRepository.save(attendanceEntity);
+
+            return studentEntity;
         } catch (RuntimeException e) {
             e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid request data");

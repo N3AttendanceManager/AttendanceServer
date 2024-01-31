@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import xyz.miyayu.attendanceapiserver.Controller.Request.AttendanceRequest;
 import xyz.miyayu.attendanceapiserver.Controller.Response.AttendanceResponse;
+import xyz.miyayu.attendanceapiserver.Controller.Response.SingleStudentResponse;
 import xyz.miyayu.attendanceapiserver.Entity.AttendanceEntity;
+import xyz.miyayu.attendanceapiserver.Entity.StudentEntity;
 import xyz.miyayu.attendanceapiserver.Repository.AttendanceRepository;
 import xyz.miyayu.attendanceapiserver.Service.AttendanceService;
 
@@ -35,8 +37,11 @@ public class AttendanceController {
     }
 
     @PostMapping("/ic")
-    public void updateByIc(@RequestBody AttendanceRequest request) {
-        attendanceService.updateAttendanceByIcId(request.getIcId(), request);
+    public SingleStudentResponse updateByIc(@RequestBody AttendanceRequest request) {
+        var student = attendanceService.updateAttendanceByIcId(request.getIcId(), request);
+        var response = new SingleStudentResponse();
+        response.setStudent(student);
+        return response;
     }
 
 
