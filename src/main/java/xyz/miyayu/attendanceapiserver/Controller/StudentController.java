@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import xyz.miyayu.attendanceapiserver.Controller.Request.StudentRegisterRequest;
 import xyz.miyayu.attendanceapiserver.Entity.StudentEntity;
 import xyz.miyayu.attendanceapiserver.Controller.Response.StudentResponse;
 import xyz.miyayu.attendanceapiserver.Repository.StudentRepository;
@@ -35,12 +36,12 @@ public class StudentController {
 
     @PostMapping("")
     public @ResponseBody
-    String addNewStudent(@RequestParam String studentId, String name, int departmentId, String icId) {
+    String addNewStudent(@RequestBody StudentRegisterRequest request) {
         try {
             StudentEntity n = new StudentEntity();
-            n.setStudentId(studentId);
-            n.setName(name);
-            n.setDepartmentId(departmentId);
+            n.setStudentId(request.getStudentId());
+            n.setName(request.getName());
+            n.setDepartmentId(request.getDepartmentId());
             //n.setIcId(icId);
             studentRepository.save(n);
             return "DataSaved";
